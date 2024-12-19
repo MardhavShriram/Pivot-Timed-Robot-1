@@ -38,17 +38,17 @@ public class Robot extends TimedRobot {
   }
 
   //Defining Drivetrain Motors
-  private final CANSparkMax front_left = new CANSparkMax(0, MotorType.kBrushless);
-  private final CANSparkMax front_right = new CANSparkMax(1, MotorType.kBrushless);
-  private final CANSparkMax back_left = new CANSparkMax(2, MotorType.kBrushless);
-  private final CANSparkMax back_right = new CANSparkMax(3, MotorType.kBrushless);
+  private final CANSparkMax front_left = new CANSparkMax(Constants.fl_ID, MotorType.kBrushless);
+  private final CANSparkMax front_right = new CANSparkMax(Constants.fr_ID, MotorType.kBrushless);
+  private final CANSparkMax back_left = new CANSparkMax(Constants.bl_ID, MotorType.kBrushless);
+  private final CANSparkMax back_right = new CANSparkMax(Constants.br_ID, MotorType.kBrushless);
 
   //Create the Pivot Motors
-  private final CANSparkMax pivot_left = new CANSparkMax(4,MotorType.kBrushless);
-  private final CANSparkMax pivot_right = new CANSparkMax(4,MotorType.kBrushless);
+  private final CANSparkMax pivot_left = new CANSparkMax(Constants.pl_ID,MotorType.kBrushless);
+  private final CANSparkMax pivot_right = new CANSparkMax(Constants.pr_ID,MotorType.kBrushless);
   //Intake Motors
-  private final CANSparkMax intake_left = new CANSparkMax(5, MotorType.kBrushless);
-  private final CANSparkMax intake_right = new CANSparkMax(6, MotorType.kBrushless);
+  private final CANSparkMax intake_left = new CANSparkMax(Constants.il_ID, MotorType.kBrushless);
+  private final CANSparkMax intake_right = new CANSparkMax(Constants.ir_ID, MotorType.kBrushless);
 
   //Create the Joysticks
   private final Joystick left_joystick = new Joystick(1);
@@ -119,6 +119,12 @@ public class Robot extends TimedRobot {
     //Set Idle Mode to Intake Motors
     intake_left.setIdleMode(IdleMode.kBrake);
     intake_right.setIdleMode(IdleMode.kBrake);
+
+    //Set the Right Intake Motor to be inverted
+    intake_right.setInverted(true);
+
+    //Set the Right Pivot Motor to be Inverted
+    pivot_right.setInverted(true);
   }
 
   /** This function is called periodically during operator control. */
@@ -130,12 +136,12 @@ public class Robot extends TimedRobot {
     
     //Setting Intake Motor
     if (intake_in.getAsBoolean()){
-      intake_left.set(.5);
-      intake_right.set(-.5);
+      intake_left.set(Constants.intake_speed);
+      intake_right.set(Constants.intake_speed);
     } 
     else if (intake_out.getAsBoolean()){
-      intake_left.set(-.5);
-      intake_right.set(.5);
+      intake_left.set(-Constants.intake_speed);
+      intake_right.set(-Constants.intake_speed);
     } 
     else {
       intake_left.set(0);
@@ -143,12 +149,12 @@ public class Robot extends TimedRobot {
     }
   //Setting the Pivot Motion
   if (pivot_up.getAsBoolean()){
-    pivot_left.set(.5);
-    pivot_right.set(-.5);
+    pivot_left.set(Constants.pivot_speed);
+    pivot_right.set(Constants.pivot_speed);
   } 
   else if (pivot_down.getAsBoolean()){  
-    pivot_left.set(-.5);
-    pivot_right.set(.5);
+    pivot_left.set(-Constants.pivot_speed);
+    pivot_right.set(-Constants.pivot_speed);
   }
   else {
     pivot_left.set(0);
